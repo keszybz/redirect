@@ -1,8 +1,5 @@
 TODO:
 
-# enable prerouting to be able to listen on 80 or 443 as normal user -> requires sudo
-sudo ./prerouting.sh
-
 # modify /etc/hosts and add to redirect openai sites to localhost
 127.0.0.1 openai.com
 127.0.0.1 chat.openai.com
@@ -11,5 +8,5 @@ sudo ./prerouting.sh
 ./create_ssl_setup.sh
 
 # start the server
-python redirect.py
-
+systemd-socket-active -l 80 python redirect.py
+systemd-socket-active -l 443 python redirect.py --ssl
