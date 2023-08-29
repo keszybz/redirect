@@ -15,7 +15,7 @@ CGI = 'play.cgi'
 
 our_dir = Path(__file__).parent
 
-PAGE = '''\
+PAGE = ('''\
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -32,7 +32,7 @@ PAGE = '''\
    </p>
   </body>
 </html>
-'''.encode()
+''').encode()
 
 class Redirect(http.server.CGIHTTPRequestHandler):
     def do_GET(self):
