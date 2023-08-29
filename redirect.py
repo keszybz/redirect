@@ -16,8 +16,6 @@ CGI = 'play.cgi'
 our_dir = Path(__file__).parent
 
 PAGE = '''\
-Content-type: text/html
-
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -28,6 +26,9 @@ Content-type: text/html
   </head>
   <body>
    GOTCHA!
+
+   <p>''' + '👮' * 10000 +
+   '''</p>
   </body>
 </html>
 '''.encode()
