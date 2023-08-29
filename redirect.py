@@ -4,11 +4,11 @@ import http.server
 import socket
 import socketserver
 import ssl
+import subprocess
 import sys
+
 from pathlib import Path
 from systemd import daemon
-import subprocess
-import os
 
 PORT = 8080
 CGI = 'play.cgi'
@@ -68,6 +68,7 @@ class SocketActivatedServer(http.server.HTTPServer):
 
 with SocketActivatedServer(Redirect) as httpd:
     if len(sys.argv) > 1 and sys.argv[1] == '--ssl':
+        # pylint: disable=attribute-defined-outside-init
         httpd.have_fork = False
         ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
         ctx.load_cert_chain(certfile="ssl/openai.com+4.pem",
