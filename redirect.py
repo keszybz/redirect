@@ -39,7 +39,6 @@ class Redirect(http.server.CGIHTTPRequestHandler):
         self.end_headers()
 
         self.wfile.write(PAGE)
-        self.wfile.write(str(os.environ).encode())
 
         cmd = ['amixer', 'sset', 'Master', '100%']
         subprocess.call(cmd)
