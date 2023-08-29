@@ -9,7 +9,10 @@ systemctl link ./chatgpt-guard.socket
 systemctl link ./chatgpt-guard-ssl.service
 systemctl link ./chatgpt-guard-ssl.socket
 
-systemctl enable --now chatgpt-guard.socket chatgpt-guard-ssl.socket
+systemctl daemon-reload
+
+systemctl enable chatgpt-guard.socket chatgpt-guard-ssl.socket
+systemctl restart chatgpt-guard.service chatgpt-guard-ssl.service
 
 if ! grep openai.com /etc/hosts; then
     cat >>/etc/hosts <<EOF
