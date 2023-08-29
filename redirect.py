@@ -1,25 +1,72 @@
+# pylint: disable=missing-module-docstring,missing-class-docstring,invalid-name
+
 import http.server
+import socket
 import socketserver
 import ssl
+import sys
+from pathlib import Path
+from systemd import daemon
+import subprocess
+import os
 
 PORT = 8080
 CGI = 'play.cgi'
-SSL = False
+
+our_dir = Path(__file__).parent
+
+PAGE = '''\
+Content-type: text/html
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Gotcha</title>
+    <style>
+      html { font-size: xx-large; }
+    </style>
+  </head>
+  <body>
+   GOTCHA!
+  </body>
+</html>
+'''.encode()
 
 class Redirect(http.server.CGIHTTPRequestHandler):
-    cgi_directories = ['/']
     def do_GET(self):
-        if self.path == f'/{CGI}' and self.is_cgi():
-            super().do_GET()
-        else:
-            self.send_response(301)
-            new_path = f'http://localhost:{PORT}/{CGI}'
-            self.send_header('Location', new_path)
-            self.end_headers()
+        self.send_response(200)
+        self.send_header('Content-type', 'text/html')
+        self.end_headers()
+
+        self.wfile.write(PAGE)
+        self.wfile.write(str(os.environ).encode())
+
+        cmd = ['amixer', 'sset', 'Master', '100%']
+        subprocess.call(cmd)
+
+        cmd = ['systemd-run', '-d', '--user', 'mpv', 'police.opus']
+        subprocess.check_call(cmd)
 
 
-with http.server.HTTPServer(("localhost", PORT), Redirect) as httpd:
-    if SSL:
+class SocketActivatedServer(http.server.HTTPServer):
+    # pylint: disable=non-parent-init-called,super-init-not-called
+    def __init__(self, RequestHandlerClass, bind_and_activate=True):
+        assert bind_and_activate
+
+        fd, = daemon.listen_fds()
+        print(f'got {fd=}')
+        sock = socket.fromfd(fd, self.address_family, self.socket_type)
+
+        server_address = sock.getsockname()[:2]
+        print(f'{server_address=}')
+
+        socketserver.BaseServer.__init__(self, server_address, RequestHandlerClass)
+
+        self.socket = sock
+
+
+with SocketActivatedServer(Redirect) as httpd:
+    if len(sys.argv) > 1 and sys.argv[1] == '--ssl':
         httpd.have_fork = False
         ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
         ctx.load_cert_chain(certfile="ssl/openai.com+4.pem",

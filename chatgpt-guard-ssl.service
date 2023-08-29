@@ -1,0 +1,7 @@
+[Service]
+ExecStart=python %Y/redirect.py --ssl
+User=zbyszek
+WorkingDirectory=%Y
+
+[Install]
+WantedBy=graphical.target
