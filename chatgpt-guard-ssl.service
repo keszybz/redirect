@@ -1,6 +1,6 @@
 [Service]
 ExecStart=python %Y/redirect.py --ssl
-User=zbyszek
+User=student
 WorkingDirectory=%Y
 
 [Install]

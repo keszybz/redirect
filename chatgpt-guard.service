@@ -1,6 +1,6 @@
 [Service]
 ExecStart=python %Y/redirect.py
-User=zbyszek
+User=student
 WorkingDirectory=%Y
 Environment=DBUS_SESSION_BUS_ADDRESS='unix:path=/run/user/1000/bus'
 
