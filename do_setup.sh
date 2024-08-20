@@ -17,6 +17,8 @@ systemctl restart chatgpt-guard.service chatgpt-guard-ssl.service
 if ! grep -q openai.com /etc/hosts; then
     cat >>/etc/hosts <<EOF
 127.0.0.1 openai.com
+127.0.0.1 chatgpt.com
 127.0.0.1 chat.openai.com
+127.0.0.1 auth.openai.com
 EOF
 fi

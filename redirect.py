@@ -21,15 +21,11 @@ PAGE = ('''\
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Gotcha</title>
     <style>
-      html { font-size: xx-large; }
+     html { font-size: 15vw; text-align: center }
     </style>
   </head>
   <body>
-   GOTCHA!
-
-   <p>
-   ''' + '👮' * 10000 + '''
-   </p>
+      👮<br>GOTCHA!<br>👮
   </body>
 </html>
 ''').encode()
