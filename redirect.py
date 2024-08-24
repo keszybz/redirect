@@ -25,7 +25,7 @@ PAGE = ('''\
     </style>
   </head>
   <body>
-      👮<br>GOTCHA!<br>👮
+      👮<br>GOTCHA!
   </body>
 </html>
 ''').encode()
