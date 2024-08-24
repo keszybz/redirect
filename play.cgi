@@ -14,4 +14,3 @@ echo 'GOTCHA!'
 echo '</body>'
 echo '</html>'
 mpv ./police.opus >& /dev/null &
-
