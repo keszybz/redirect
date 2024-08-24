@@ -67,8 +67,8 @@ with SocketActivatedServer(Redirect) as httpd:
         # pylint: disable=attribute-defined-outside-init
         httpd.have_fork = False
         ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-        ctx.load_cert_chain(certfile="ssl/openai.com+4.pem",
-                            keyfile="ssl/openai.com+4-key.pem")
+        ctx.load_cert_chain(certfile="ssl/openai.com+5.pem",
+                            keyfile="ssl/openai.com+5-key.pem")
         httpd.socket = ctx.wrap_socket(httpd.socket, server_side=True)
 
     httpd.serve_forever()
