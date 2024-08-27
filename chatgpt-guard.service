@@ -8,3 +8,4 @@ Sockets=chatgpt-guard.socket
 
 [Install]
 Also=chatgpt-guard.socket
+WantedBy=graphical.target
