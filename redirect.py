@@ -32,6 +32,17 @@ PAGE = ('''\
 
 class Redirect(http.server.CGIHTTPRequestHandler):
     def do_GET(self):
+        
+        # Get the Host header
+        host = self.headers.get('Host')
+        if host not in (
+          'openai.com',
+          'chatgpt.com',
+          'chat.openai.com',
+          'auth.openai.com'
+        ):
+            return
+      
         self.send_response(200)
         self.send_header('Content-type', 'text/html')
         self.end_headers()
