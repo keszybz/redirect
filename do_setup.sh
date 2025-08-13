@@ -4,10 +4,10 @@ cd $(dirname $0)
 
 ./create_ssl_setup.sh
 
-systemctl link ./chatgpt-guard.service
-systemctl link ./chatgpt-guard.socket
-systemctl link ./chatgpt-guard-ssl.service
-systemctl link ./chatgpt-guard-ssl.socket
+cp ./chatgpt-guard.service /etc/systemd/system/
+cp ./chatgpt-guard.socket /etc/systemd/system/
+cp ./chatgpt-guard-ssl.servit /etc/systemd/system/
+cp ./chatgpt-guard-ssl.sockt /etc/systemd/system/
 
 systemctl daemon-reload
 
