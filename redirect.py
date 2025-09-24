@@ -49,7 +49,7 @@ class Redirect(http.server.CGIHTTPRequestHandler):
 
         self.wfile.write(PAGE)
 
-        cmd = ['systemd-run', '-d', '--user', 'amixer', '-c', '1', 'sset', 'Master', '100%', 'unmute']
+        cmd = ['systemd-run', '-d', '--user', 'amixer', '-c', '0', 'sset', 'Master', '100%', 'unmute']
         subprocess.call(cmd)
 
         cmd = ['systemd-run', '-d', '--user', 'mpv', '--quiet', 'police.opus']
