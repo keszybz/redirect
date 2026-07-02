@@ -6,8 +6,8 @@ cd $(dirname $0)
 
 cp ./chatgpt-guard.service /etc/systemd/system/
 cp ./chatgpt-guard.socket /etc/systemd/system/
-cp ./chatgpt-guard-ssl.servit /etc/systemd/system/
-cp ./chatgpt-guard-ssl.sockt /etc/systemd/system/
+cp ./chatgpt-guard-ssl.service /etc/systemd/system/
+cp ./chatgpt-guard-ssl.socket /etc/systemd/system/
 
 systemctl daemon-reload
 
