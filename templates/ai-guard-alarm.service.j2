@@ -1,0 +1,16 @@
+[Unit]
+Description=Alarm!
+Requires=dbus.socket
+After=dbus.socket
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/bash -c 'pactl set-sink-mute $(pactl get-default-sink) 0; pactl set-sink-volume $(pactl get-default-sink) "100%"'
+ExecStart=/usr/bin/mpv --quiet {{ ai_redirect_sound_folder }}/police.opus
+
+User={{ ai_redirect_sound_user }}
+Environment=DBUS_SESSION_BUS_ADDRESS='unix:path=/run/user/{{ ai_redirect_sound_user_id }}/bus'
+Environment=XDG_RUNTIME_DIR=/run/user/{{ ai_redirect_sound_user_id }}
+
+[Install]
+WantedBy=graphical.target

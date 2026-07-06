@@ -1,0 +1,19 @@
+---
+
+- name: Reload systemd
+  systemd:
+    daemon_reload: true
+
+- name: Generate certificates
+  ansible.builtin.command:
+    chdir: "{{ ai_redirect_script_folder }}"
+    argv: >-
+      {{
+        [
+        '/usr/bin/mkcert',
+        '-cert-file', 'certs/redirect-cert.pem',
+        '-key-file', 'certs/redirect-key.pem',
+        ]
+        + [ai_redirect_localhost_ip]
+        + ai_redirect_hosts
+      }}

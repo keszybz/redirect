@@ -1,0 +1,13 @@
+
+galaxy_info:
+  author: Rike-Benjamin Schuppner
+  description: Redirect AI sites and sound an alarm
+  company: ASPP
+
+  license: BSD-3-Clause
+
+  min_ansible_version: 2.2
+
+  galaxy_tags: []
+
+dependencies: []

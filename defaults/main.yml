@@ -1,0 +1,15 @@
+---
+
+ai_redirect_sound_folder: '/opt/ai-redirect'
+ai_redirect_script_folder: '/root/redirect-certs'
+
+ai_redirect_sound_user: student
+ai_redirect_sound_user_id: 1000
+
+ai_redirect_localhost_ip: 127.0.20.1
+
+ai_redirect_hosts:
+- openai.com
+- chatgpt.com
+- chat.openai.com
+- auth.openai.com

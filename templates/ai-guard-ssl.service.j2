@@ -1,0 +1,6 @@
+[Service]
+ExecStart=python redirect.py --ssl
+WorkingDirectory={{ ai_redirect_script_folder }}
+
+[Install]
+Also=ai-guard-ssl.socket
