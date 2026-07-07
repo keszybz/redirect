@@ -4,6 +4,10 @@
   ansible.builtin.dnf:
     name: mkcert
 
+- name: Install mkcert root certificate
+  ansible.builtin.command:
+    cmd: /usr/bin/mkcert -install
+
 - name: Install python3-systemd
   ansible.builtin.dnf:
     name: python3-systemd
