@@ -1,0 +1,92 @@
+---
+
+- name: Install mkcert
+  ansible.builtin.dnf:
+    name: mkcert
+
+- name: Install mkcert root certificate
+  ansible.builtin.command:
+    cmd: /usr/bin/mkcert -install
+
+- name: Install python3-systemd
+  ansible.builtin.dnf:
+    name: python3-systemd
+
+- name: Create redirect script folder
+  ansible.builtin.file:
+    path: "{{ ai_redirect_script_folder }}"
+    state: directory
+    mode: '0755'
+
+- name: Create redirect cert folder
+  ansible.builtin.file:
+    path: "{{ ai_redirect_script_folder }}/certs"
+    state: directory
+    mode: '0755'
+
+- name: Create redirect sound folder
+  ansible.builtin.file:
+    path: "{{ ai_redirect_sound_folder }}"
+    state: directory
+    mode: '0755'
+
+- name: Copy sound file
+  ansible.builtin.copy:
+    src: police.opus
+    dest: "{{ ai_redirect_sound_folder }}/police.opus"
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Copy redirect python script
+  ansible.builtin.copy:
+    src: redirect.py
+    dest: "{{ ai_redirect_script_folder }}/redirect.py"
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Install services/sockets
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "/etc/systemd/system/{{ item }}"
+    owner: root
+    group: root
+    mode: '0644'
+  loop:
+  - ai-guard-alarm.service
+  - ai-guard.service
+  - ai-guard.socket
+  - ai-guard-ssl.service
+  - ai-guard-ssl.socket
+  notify: Reload systemd
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
+
+- name: Enable and start sockets
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    enabled: true
+    state: started
+  loop:
+    - ai-guard.socket
+    - ai-guard-ssl.socket
+
+- name: Stop services
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    state: stopped
+  loop:
+    - ai-guard.service
+    - ai-guard-ssl.service
+
+- name: Manage custom hosts entries
+  ansible.builtin.blockinfile:
+    path: /etc/hosts
+    marker: "# {mark} AI REDIRECT: ANSIBLE MANAGED HOSTS"
+    block: |
+      {% for host in ai_redirect_hosts %}
+      {{ ai_redirect_localhost_ip }} {{ host }}
+      {% endfor %}
+  notify: Generate certificates
